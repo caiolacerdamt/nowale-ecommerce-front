@@ -86,6 +86,7 @@ export default function CartPage() {
 
   function lessOfThisProdut(id) {
     removeProduct(id);
+    clearCart()
   }
 
   const address = {
