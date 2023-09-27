@@ -3,12 +3,12 @@ import Header from "../components/Header";
 import { mongooseConnect } from "../lib/mongoose";
 import ProductImages from "../components/ProductImages";
 import CartIcon from "../components/icons/CartIcon";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect } from "react";
 import { CartContext } from "../components/CartContext";
-import FlyingButton from "../components/FlyingButton";
 import ProductReviews from "../components/ProductReviews";
 import axios from "axios";
 import Footer from "../components/Footer";
+import FlyingButton from "../components/FlyingButton";
 
 export default function ProductPage({ product }) {
 
