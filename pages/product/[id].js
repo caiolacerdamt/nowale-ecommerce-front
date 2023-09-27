@@ -44,15 +44,7 @@ export default function ProductPage({ product }) {
 
               <FlyingButton
                 src={product.images?.[0]}
-                targetTop={"5%"}
-                targetLeft={"95%"}
-                flyingItemStyling={{
-                  width: "auto",
-                  heigh: "auto",
-                  maxWidth: "60px",
-                  maxHeight: "60px",
-                  borderRadius: "0",
-                }}
+                
               >
                 <div
                   onClick={() => {

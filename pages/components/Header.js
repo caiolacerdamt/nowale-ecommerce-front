@@ -6,7 +6,7 @@ import SearchIcon from "./icons/SearchIcon";
 
 export default function Header() {
   const { cartProducts } = useContext(CartContext);
-  const [mobileNavActive, setMobileNavActive] = useState(false);
+  const [mobilenavActive, setMobileNavActive] = useState(false);
   return (
     <div className="w-ful bg-gray-900 sticky top-0 z-10">
       <div className="min-w-[100%]  my-0 mx-[auto] py-0 px-[20px]">
@@ -16,9 +16,9 @@ export default function Header() {
           </Link>
           <div className="flex gap-4">
             <nav
-              mobileNavActive={mobileNavActive}
+              mobilenavActive={mobilenavActive}
               className={`fixed my-auto top-0 bottom-0 left-0 right-0 px-[20px] pt-[70px] bg-gray-900 gap-5 text-white
-                ${mobileNavActive ? "block" : "hidden"}
+                ${mobilenavActive ? "block" : "hidden"}
             min-[768px]:flex min-[768px]:gap-5 min-[768px]:static min-[768px]:p-0`}
             >
               <Link className="navLink" href={"/"}>
