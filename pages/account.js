@@ -9,21 +9,124 @@ import ProductBox from "./components/ProductBox";
 import Tabs from "./components/Tabs";
 import SingleOrder from "./components/SingleOrder";
 import Footer from "./components/Footer";
+import ProductList from "./components/ProductList";
 
-export default function AccountPage() {
-  const { data: session } = useSession();
+function useAddress() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [city, setCity] = useState("");
   const [postalCode, setPostalCode] = useState("");
   const [streetAddress, setStreetAddress] = useState("");
   const [country, setCountry] = useState("");
-  const [addressLoaded, setAddressLoaded] = useState(true);
-  const [wishlistLoaded, setWishlistLoaded] = useState(true);
-  const [ordersLoaded, setOrdersLoaded] = useState(true);
+  const [loaded, setLoaded] = useState(true);
+
+  async function fetchAddress() {
+    await axios.get("/api/address").then((response) => {
+      setName(response.data.name);
+      setEmail(response.data.email);
+      setCity(response.data.city);
+      setPostalCode(response.data.postalCode);
+      setStreetAddress(response.data.streetAddress);
+      setCountry(response.data.country);
+      setLoaded(true);
+    });
+  }
+
+  async function saveAddress() {
+    const data = { name, email, city, streetAddress, postalCode, country };
+    await axios.put("/api/address", data);
+  }
+
+  return {
+    name,
+    setName,
+    email,
+    setEmail,
+    city,
+    setCity,
+    postalCode,
+    setPostalCode,
+    streetAddress,
+    setStreetAddress,
+    country,
+    setCountry,
+    loaded,
+    fetchAddress,
+    saveAddress,
+  };
+}
+
+function useWishlist() {
   const [wishedProducts, setWishedProducts] = useState([]);
-  const [activeTab, setActiveTab] = useState("Favoritos");
+  const [loaded, setLoaded] = useState(true);
+
+  async function fetchWishlist() {
+    await axios.get("/api/wishlist").then((response) => {
+      setWishedProducts(response.data.map((wp) => wp.product));
+      setLoaded(true);
+    });
+  }
+
+  function removeProductFromWishlist(idToRemove) {
+    setWishedProducts((products) => {
+      return [...products.filter((p) => p?._id.toString() !== idToRemove)];
+    });
+  }
+
+  return {
+    wishedProducts,
+    loaded,
+    fetchWishlist,
+    removeProductFromWishlist,
+  };
+}
+
+function useOrders() {
   const [orders, setOrders] = useState([]);
+  const [loaded, setLoaded] = useState(true);
+
+  async function fetchOrders() {
+    await axios.get("/api/orders").then((response) => {
+      setOrders(response.data);
+      setLoaded(true);
+    });
+  }
+
+  return {
+    orders,
+    loaded,
+    fetchOrders,
+  };
+}
+
+export default function AccountPage() {
+  const { data: session } = useSession();
+  const [activeTab, setActiveTab] = useState("Favoritos")
+  const {
+    name,
+    setName,
+    email,
+    setEmail,
+    city,
+    setCity,
+    postalCode,
+    setPostalCode,
+    streetAddress,
+    setStreetAddress,
+    country,
+    setCountry,
+    loaded: addressLoaded,
+    fetchAddress,
+    saveAddress,
+  } = useAddress();
+  const {
+    wishedProducts,
+    loaded: wishlistLoaded,
+    fetchWishlist,
+    removeProductFromWishlist,
+  } = useWishlist();
+  const { orders, loaded: ordersLoaded, fetchOrders } = useOrders();
+
   async function logout() {
     await signOut({
       callbackUrl: process.env.NEXT_PUBLIC_URL,
@@ -36,56 +139,14 @@ export default function AccountPage() {
     });
   }
 
-  async function saveAddress() {
-    const data = { name, email, city, streetAddress, postalCode, country };
-    await axios.put("/api/address", data);
-  }
-
   useEffect(() => {
     if (!session) {
       return;
     }
-    setAddressLoaded(false);
-    setWishlistLoaded(false);
-    setOrdersLoaded(false);
-    fetchAddres();
+    fetchAddress();
     fetchWishlist();
     fetchOrders();
   }, [session]);
-
-  async function fetchAddres() {
-    await axios.get("/api/address").then((response) => {
-      setName(response.data.name);
-      setEmail(response.data.email);
-      setCity(response.data.city);
-      setPostalCode(response.data.postalCode);
-      setStreetAddress(response.data.streetAddress);
-      setCountry(response.data.country);
-      setAddressLoaded(true);
-    });
-  }
-
-  async function fetchWishlist() {
-    await axios.get("/api/wishlist").then((response) => {
-      setWishedProducts(response.data.map((wp) => wp.product));
-      setWishlistLoaded(true);
-    });
-  }
-
-  async function fetchOrders() {
-    await axios.get("/api/orders").then((response) => {
-      setOrders(response.data);
-      setOrdersLoaded(true);
-    });
-  }
-
- 
-
-  function productRemovedFromWishlist(idToRemove) {
-    setWishedProducts((products) => {
-      return [...products.filter((p) => p?._id.toString() !== idToRemove)];
-    });
-  }
 
   return (
     <>
@@ -121,21 +182,11 @@ export default function AccountPage() {
                     {!wishlistLoaded && <Spinner />}
                     {wishlistLoaded && (
                       <>
-                        <div className="grid grid-cols-1 min-[768px]:grid-cols-2 gap-4">
-                          {wishlistLoaded &&
-                            wishedProducts.length > 0 &&
-                            wishedProducts.map((wp) => (
-                              <ProductBox
-                                key={wp}
-                                {...wp}
-                                wished={true}
-                                onRemoveFromWishList={
-                                  productRemovedFromWishlist
-                                }
-                              />
-                            ))}
-                        </div>
-                        {wishedProducts.length === 0 && (
+                        <ProductList
+                          products={wishedProducts}
+                          onRemoveFromWishlist={removeProductFromWishlist}
+                        />
+                        {wishedProducts?.length === 0 && (
                           <>
                             {session && (
                               <p className="m-3">Sua lista está vazia.</p>

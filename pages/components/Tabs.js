@@ -1,17 +1,19 @@
-export default function Tabs({ tabs, active, onChange }) {
+function Tabs({ tabs, active, onChange }) {
   return (
     <div className="flex gap-4 mb-4">
-      {tabs.map((tabName) => (
-        <span
-          className={`text-lg cursor-pointer ${
-            tabName === active ? "text-black border-b-2 border-black" : "text-gray-800"
+      {tabs.map((tab) => (
+        <button
+          key={tab}
+          className={`py-2 px-4 rounded-md ${
+            active === tab ? "bg-gray-900 text-white" : "bg-gray-200"
           }`}
-          onClick={() => onChange(tabName)}
-          key={tabName}
+          onClick={() => onChange(tab)}
         >
-          {tabName}
-        </span>
+          {tab}
+        </button>
       ))}
     </div>
   );
 }
+
+export default Tabs;
