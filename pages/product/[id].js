@@ -5,11 +5,10 @@ import ProductImages from "../components/ProductImages";
 import CartIcon from "../components/icons/CartIcon";
 import { useContext, useEffect, useState } from "react";
 import { CartContext } from "../components/CartContext";
-import FlyingButton from "react-flying-item";
+import FlyingButton from "../components/FlyingButton";
 import ProductReviews from "../components/ProductReviews";
 import axios from "axios";
 import Footer from "../components/Footer";
-import { fetchData } from "next-auth/client/_utils";
 
 export default function ProductPage({ product }) {
 
