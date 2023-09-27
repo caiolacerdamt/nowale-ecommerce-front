@@ -2,26 +2,33 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
-  }
-}
-
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700&display=swap');
 body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+    background-color: #ddd;
+    font-family: 'Poppins', sans-serif;
+}
+
+
+.navLink {
+    @apply block py-[10px] px-0;
+    @apply font-medium text-[1.2rem];
+    @apply min-[768px]:p-0;
+    @apply transition-all duration-500 ease-in-out;
+}
+
+.navLink:hover {
+    @apply min-[768px]:text-white min-[768px]:scale-105;
+
+}
+
+.descriptionProductMobile {
+    @apply max-[768px]:flex max-[768px]:flex-col max-[768px]:justify-center max-[768px]:items-center
+}
+
+.selected {
+    @apply bg-gray-800 rounded-md px-2  min-w-[60px] py-2 transition-all text-white hover:bg-gray-900;
+}
+
+.notSelected {
+    @apply bg-white rounded-md px-2 min-w-[60px] py-2 transition-all hover:bg-gray-200;
 }
