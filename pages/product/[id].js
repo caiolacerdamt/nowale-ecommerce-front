@@ -43,7 +43,7 @@ export default function ProductPage({ product }) {
               </p>
 
               <FlyingButton
-                src={product.images?.[0]}
+                className={'bg-gray-900 py-2 text-white rounded-lg flex justify-center items-center px-2 w-full'} src={product.images?.[0]}
                 
               >
                 <div
