@@ -7,6 +7,7 @@ import Link from "next/link";
 import { RevealWrapper } from "next-reveal";
 import { useSession } from "next-auth/react";
 import Footer from "./components/Footer";
+import { FaSpinner } from "react-icons/fa";
 
 export default function CartPage() {
   const { cartProducts, addProduct, removeProduct, clearCart } =
@@ -21,12 +22,16 @@ export default function CartPage() {
   const [streetAddress, setStreetAddress] = useState("");
   const [country, setCountry] = useState("");
   const [shippingFee, setShippingFee] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
+
   useEffect(() => {
     const fetchData = async () => {
       if (cartProducts.length > 0) {
-        await axios.post("/api/cart", { ids: cartProducts }).then((response) => {
-          setProducts(response.data);
-        });
+        await axios
+          .post("/api/cart", { ids: cartProducts })
+          .then((response) => {
+            setProducts(response.data);
+          });
       } else {
         setProducts([]);
       }
@@ -34,9 +39,8 @@ export default function CartPage() {
     fetchData();
   }, [cartProducts]);
 
-
   useEffect(() => {
-    if(typeof window === 'undefined') {
+    if (typeof window === "undefined") {
       return;
     }
     if (window?.location.href.includes("success")) {
@@ -48,13 +52,12 @@ export default function CartPage() {
 
   async function fetchShippingFee() {
     try {
-      await axios.get('/api/settings?name=shippingFee').then((res) => {
+      await axios.get("/api/settings?name=shippingFee").then((res) => {
         setShippingFee(res.data?.value);
-      })
+      });
     } catch (error) {
-      console.log(error.response.data)
+      console.log(error.response.data);
     }
-   
   }
 
   useEffect(() => {
@@ -66,27 +69,26 @@ export default function CartPage() {
 
   async function fetchAddress() {
     try {
-      await axios.get('/api/address').then((response) => {
+      await axios.get("/api/address").then((response) => {
         setName(response.data.name);
         setEmail(response.data.email);
         setCity(response.data.city);
         setPostalCode(response.data.postalCode);
         setStreetAddress(response.data.streetAddress);
         setCountry(response.data.country);
-      })
+      });
     } catch (error) {
-      console.log(error.response.data)
-    }  
+      console.log(error.response.data);
+    }
   }
 
   async function moreOfThisProduct(id) {
     await addProduct(id);
   }
 
-
   function lessOfThisProdut(id) {
     removeProduct(id);
-    clearCart()
+    clearCart();
   }
 
   const address = {
@@ -97,23 +99,24 @@ export default function CartPage() {
     streetAddress: streetAddress,
     country: country,
     cartProducts: cartProducts,
-  }
+  };
 
   async function goToPayment() {
     try {
-      const response = await axios.post("/api/checkout", address,
-      {
+      setIsLoading(true);
+      const response = await axios.post("/api/checkout", address, {
         headers: {
-          'Content-Type': 'application/json'
-        }
+          "Content-Type": "application/json",
+        },
       });
       if (response.data.url) {
         window.location = response.data.url;
       }
     } catch (error) {
-      console.log(error.response.data)
+      console.log(error.response.data);
+    } finally {
+      setIsLoading(false);
     }
-    
   }
 
   let productsTotal = 0;
@@ -122,7 +125,6 @@ export default function CartPage() {
     const price = products.find((p) => p._id === productId)?.price || 0;
     productsTotal += price;
   }
-
 
   if (isSuccess) {
     return (
@@ -157,9 +159,7 @@ export default function CartPage() {
           <RevealWrapper delay={0}>
             <div className="bg-white rounded-[10px] p-4">
               <h2 className="text-2xl font-extrabold my-4">Carrinho</h2>
-              {!cartProducts?.length && ( 
-                <div>Seu carrinho está vazio</div>
-              )}
+              {!cartProducts?.length && <div>Seu carrinho está vazio</div>}
               {products.length > 0 && (
                 <table className="w-full">
                   <thead className="text-left uppercase text-gray-900 font-bold text-[.7rem]">
@@ -239,11 +239,8 @@ export default function CartPage() {
                     </tr>
                   </tbody>
                 </table>
-              
               )}
-                
             </div>
-           
           </RevealWrapper>
 
           {!!cartProducts?.length && (
@@ -295,10 +292,14 @@ export default function CartPage() {
                   onChange={(e) => setCountry(e.target.value)}
                 />
                 <button
-                  className="bg-gray-900 w-full py-2 rounded-md text-white"
+                  className="bg-gray-900 w-full py-2 rounded-md text-white mx-auto"
                   onClick={goToPayment}
                 >
-                  Continuar para o pagamento
+                  {isLoading ? (
+                    <FaSpinner className="animate-spin text-emerald-400 w-full h-6" />
+                  ) : (
+                    "Continuar para o pagamento"
+                  )}
                 </button>
               </div>
             </RevealWrapper>
