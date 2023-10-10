@@ -3,6 +3,7 @@ import { useContext, useState } from "react";
 import { CartContext } from "./CartContext";
 import BarsIcon from "./icons/Bars";
 import SearchIcon from "./icons/SearchIcon";
+import { FaCartArrowDown, FaCartPlus } from "react-icons/fa";
 
 export default function Header() {
   const { cartProducts } = useContext(CartContext);
@@ -33,8 +34,8 @@ export default function Header() {
               <Link className="navLink" href={"/account"}>
                 Conta
               </Link>
-              <Link className="navLink" href={"/cart"}>
-                Carrinho ({cartProducts.length})
+              <Link className="flex gap-2 items-center py-[10px] px-0 min-[768px]:p-0 transition-all duration-500 ease-in-out font-medium text-[1.2rem] hover:min-[768px]:text-white hover:min-[768px]:scale-105" href={"/cart"}>
+                <FaCartPlus /> ({cartProducts.length})
               </Link>
             </nav>
             <div className="flex items-center gap-2">
