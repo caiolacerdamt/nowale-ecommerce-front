@@ -9,7 +9,7 @@ export default function Header() {
   const { cartProducts } = useContext(CartContext);
   const [mobilenavActive, setMobileNavActive] = useState(false);
   return (
-    <div className="w-ful bg-gray-900 sticky top-0 z-10">
+    <div className="w-full bg-gray-900 sticky top-0 z-10">
       <div className="min-w-[100%]  my-0 mx-[auto] py-0 px-[20px]">
         <div className="w-full flex justify-between py-[20px] px-4">
           <Link className="relative z-[3] text-white text-[1.5rem] font-bold" href={"/"}>
