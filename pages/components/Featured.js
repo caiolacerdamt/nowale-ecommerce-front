@@ -30,7 +30,7 @@ export default function Featured({ product }) {
             <div className="w-full">
               <RevealWrapper delay={0}>
                 <div className="flex items-center justify-center w-full">
-                  <img className={"main max-h-[500px]"} src={product.images?.[0]} alt="" />
+                  <img className={"main max-h-[500px]"} src={product.images?.[0]} alt="Imagens do Produto" />
                 </div>
               </RevealWrapper>
             </div>
