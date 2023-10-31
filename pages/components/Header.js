@@ -13,7 +13,7 @@ export default function Header() {
       <div className="min-w-[100%]  my-0 mx-[auto] py-0 px-[20px]">
         <div className="w-full flex justify-between py-[20px] px-4">
           <Link className="relative z-[3] text-white text-[1.5rem] font-bold" href={"/"}>
-            WeDream
+            NowAle
           </Link>
           <div className="flex gap-4">
             <nav
