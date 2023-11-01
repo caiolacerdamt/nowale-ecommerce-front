@@ -46,9 +46,9 @@ A <b>"GOOGLE_FRONT_ID"</b>e a <b>"GOOGLE_FRONT_SECRET"</b> São as APIs do Googl
 
 A <b>"MONGODB_URI"</b> é a própria URI do seu Banco MongoDB.
 
-A "STRIPE_PK" e a "STRIPE_SK" São as API Keys da Stripe para que seja possível adicionar a forma de pagamento.
+A <b>"STRIPE_PK"</b> e a <b>"STRIPE_SK"</b> São as API Keys da Stripe para que seja possível adicionar a forma de pagamento.
 
-A "PUBLIC_URL", "NEXT_PUBLIC_URL"E A "NEXTAUTH_URL" São URLS para comunicação. Caso você esteja rodando a aplicação no localhost:3000, as 3 Keys devem ser htpp://localhost:3000
+A <b>"PUBLIC_URL"</b>, <b>"NEXT_PUBLIC_URL"</b> e a <b>"NEXTAUTH_URL"</b> São URLS para comunicação. Caso você esteja rodando a aplicação no <b>localhost:3000</b>, as 3 Keys devem ser <b>http://localhost:3000</b>
 
 4- Rode o projeto como desenvolvedor no terminal do editor de texto
 ```bash
