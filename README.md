@@ -1,5 +1,7 @@
 # NowAle Ecommerce Front
 
+Esse repositório contém a parte da loja. Para acessar a parte do admin, clique <a href="https://github.com/caiolacerdamt/nowale-ecommerce-admin">aqui</a>
+
 Este projeto é um Ecommerce que consiste em uma Loja Online e uma parte de Administração. Na Loja, os usuários podem interagir, avaliar produtos, adicionar e excluir itens do carrinho, e realizar o checkout de pagamento usando a integração com a Stripe. A parte de Administração permite ao Administrador adicionar produtos, criar categorias, configurar informações como frete e políticas de privacidade, e escolher o produto em destaque. Todas as modificações feitas pelo administrador afetam diretamente a loja.
 
 <br> <br>
